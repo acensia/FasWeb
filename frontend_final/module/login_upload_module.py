@@ -57,7 +57,7 @@ def login_section():
             if st.session_state["uploaded_file"] and st.session_state["selected"]:
 
                 def upload_request():
-                    flask_server_url = "http://localhost:5000/upload"
+                    flask_server_url = "http://localhost:5001/upload"
                     file_bytes = st.session_state["uploaded_file"].getvalue()
                     files = {
                         "email": st.session_state["email"],
@@ -88,7 +88,7 @@ def login_section():
         if left_column.button(":key:  로그인"):
             try:
                 response = requests.post(
-                    "http://localhost:5000/login",
+                    "http://localhost:5001/login",
                     json={"email": email, "pw": password},
                 )
                 if response.status_code == 200:
