@@ -16,9 +16,10 @@ def signup_section():
         def is_username_available(username):
             # 백엔드로 username 중복 여부를 확인하는 요청을 보냅니다.
             response = requests.post(
-                "http://localhost:5000/check_username",
+                f"http://localhost:{st.session_state['localhost']}/check_username",
                 data={"username": signup_username},
             )
+            print(response.status_code)
             if response.status_code == 200:
                 return response.json()["available"]
             else:
@@ -49,7 +50,7 @@ def signup_section():
         def is_id_available(id):
             # 백엔드로 username 중복 여부를 확인하는 요청을 보냅니다.
             response = requests.post(
-                "http://localhost:5000/send_code", data={"id": signup_id}
+                f"http://localhost:{st.session_state['localhost']}/send_code", data={"id": signup_id}
             )
             if response.status_code == 200:
                 return response.json()["available"]
@@ -82,7 +83,7 @@ def signup_section():
         # 입력한 내용이 바뀔 때마다 확인
         if verification_code:
             response = requests.post(
-                "http://localhost:5000/verify",
+                f"http://localhost:{st.session_state['localhost']}/verify",
                 data={"signup_id": signup_id, "verification_code": verification_code},
             )
             if response.status_code == 200:
@@ -133,18 +134,18 @@ def signup_section():
             if all(signup_data.values()):
                 # 백엔드로 회원가입 데이터 전송 및 응답 처리
                 response = requests.post(
-                    "http://localhost:5000/sign_up", json=signup_data
+                    f"http://localhost:{st.session_state['localhost']}/sign_up", json=signup_data
                 )
 
                 if response.status_code == 200:
                     st.success("회원가입이 완료되었습니다.")
                     # 회원가입 성공 시 로그인 상태 변경
                     st.session_state["sign_up"] = False
-                    st.experimental_rerun()
+                    st.rerun()
 
                 elif response.status_code == 400:
                     # 중복된 username 또는 id일 경우
-                    error_message = response.json()["message"]
+                    error_message = response.json()["msg"]
                     st.error(error_message)
                 else:
                     st.error("회원가입 중 오류가 발생하였습니다.")
@@ -156,4 +157,4 @@ def signup_section():
 
         if st.button(":rewind: 돌아가기"):
             st.session_state["sign_up"] = False
-            st.experimental_rerun()
+            st.rerun()

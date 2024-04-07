@@ -11,7 +11,7 @@ def result_session():
         st.warning("로그인이 필요한 서비스입니다.")
         st.session_state["needs_rerun"] = True
     if st.button(":rewind: rerun_테스트용"):
-        st.experimental_rerun()
+        st.rerun()
     def show_set(data, i):
         # UI 나누기
         left_column, right_column = st.columns(2)
@@ -77,4 +77,4 @@ def result_session():
     if st.button(":rewind: 이미지 다시 올리기"):
         # st.session_state["loading"] = False
         st.session_state["current_page"] = "image_upload"
-        st.experimental_rerun()
+        st.rerun()

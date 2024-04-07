@@ -57,7 +57,7 @@ def login_section():
             if st.session_state["uploaded_file"] and st.session_state["selected"]:
 
                 def upload_request():
-                    flask_server_url = "http://localhost:5001/upload"
+                    flask_server_url = f"http://localhost:{st.session_state['localhost']}/upload"
                     file_bytes = st.session_state["uploaded_file"].getvalue()
                     files = {
                         "email": st.session_state["email"],
@@ -77,7 +77,7 @@ def login_section():
             if st.button(":x:로그아웃"):
                 st.session_state["logged_in"] = False
                 st.session_state["email"] = ""
-                st.experimental_rerun()
+                st.rerun()
     else:
         left_column.subheader(":robot_face:   AI패션 추천 서비스", divider="grey")
         email = left_column.text_input(":e-mail: 이메일 주소", key="unique_login_email")
@@ -88,7 +88,7 @@ def login_section():
         if left_column.button(":key:  로그인"):
             try:
                 response = requests.post(
-                    "http://localhost:5001/login",
+                    f"http://localhost:{st.session_state['localhost']}/login",
                     json={"email": email, "pw": password},
                 )
                 if response.status_code == 200:
@@ -98,7 +98,7 @@ def login_section():
                     st.session_state["logged_in"] = True
                     st.session_state["email"] = email  # 사용자가 입력한 이메일. 여기 함수에서만 정의됨
 
-                    st.experimental_rerun()
+                    st.rerun()
                 else:
                     left_column.error("로그인 실패")
             except Exception as e:
@@ -106,7 +106,7 @@ def login_section():
 
         if left_column.button(":man-woman-girl-boy:회원가입"):
             st.session_state["sign_up"] = True
-            st.experimental_rerun()
+            st.rerun()
 
     if st.session_state["logged_in"]:
         right_column.image(
