@@ -20,7 +20,7 @@ def result_backend():
         st.session_state["result"] = response.json()
         st.session_state["loading"] = False
         print("Go to result")
-        st.experimental_rerun()
+        st.rerun()
     else:
         error_message = response.json().get("error")
         st.error(f"이미지 전송 실패: {error_message}")
@@ -28,7 +28,7 @@ def result_backend():
         st.error("업로드 페이지로 복귀합니다....")
         time.sleep(3)
         st.session_state["current_page"] = "image_upload"
-        st.experimental_rerun()
+        st.rerun()
         
 
 
@@ -45,7 +45,7 @@ def loading_session():
     if st.button(":rewind: 이미지 다시 올리기"):
         # st.session_state["loading"] = False
         st.session_state["current_page"] = "image_upload"
-        st.experimental_rerun()
+        st.rerun()
 
     result_backend()
 

@@ -19,6 +19,9 @@ def session_state_init():
     if "user" not in st.session_state:
         st.session_state["user"] = ""
 
+    if "localhost" not in st.session_state:
+        st.session_state["localhost"] = "5001"
+
 
     # Upload session
     if "uploaded_file" not in st.session_state:

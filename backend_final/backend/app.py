@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*- 
+# for mac
 # Flask 애플리케이션에서 사용하는 메인 파일 (app.py)
 
 import io
@@ -148,7 +150,7 @@ def login():
     login_info = request.json
     login_email = login_info["email"]
     login_pw = login_info["pw"]
-    
+    print(login_pw)
     # email 정보로 찾은 user document
     user_document = user_info.find_one({"email": login_email})
     
@@ -221,4 +223,4 @@ def upload():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)
